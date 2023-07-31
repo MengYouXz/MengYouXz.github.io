@@ -11971,7 +11971,7 @@ body.night #night-nav #night-icon:before {
   content: '\f0eb';
 }
 body.night #universe {
-  background: radial-gradient(1600px at 70% 120%, #212750 10%, #020409 100%);
+  background: radial-gradient(1600px at 70% 120%, #000 10%, #000 100%);
   display: block;
   position: fixed;
   margin: 0;
@@ -12300,7 +12300,7 @@ body.night input:-webkit-autofill {
     content: '\f0eb';
   }
   body:not(.light) #universe {
-    background: radial-gradient(1600px at 70% 120%, #212750 10%, #020409 100%);
+    background: radial-gradient(1600px at 70% 120%, #000 10%, #000 100%);
     display: block;
     position: fixed;
     margin: 0;
