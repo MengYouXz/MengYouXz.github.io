@@ -20,9 +20,9 @@
     // var circleRadius;
     // var circleCenter;
     var first = true;
-    var giantColor = '180,184,240';
-    var starColor = '226,225,142';
-    var cometColor = '226,225,224';
+    var giantColor = '255,255,0';
+    var starColor = '204,255,255';
+    var cometColor = '255,255,255';
     var stars = [];
     var universe;
 
