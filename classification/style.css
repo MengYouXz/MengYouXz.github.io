@@ -1,0 +1,77 @@
+/* *{
+    margin: 0;
+    padding: 0;
+    font-family: "Poppins", sans-serif;
+    box-sizing: border-box;
+} */
+
+mybody{
+    height: 500px;
+    display: flex;
+    justify-content: center;
+    background-color: transparents
+}
+
+.mycontainer{
+    width: 700px;
+    height: 520px;
+    position: relative;
+    /* display: flex; */
+    justify-content: space-between;
+    /* 开启网格布局 */
+    display: grid;
+    grid-template-rows: 300px 300px ;
+    grid-template-columns:  300px 300px ;
+}
+
+.mycontainer .mycard{
+    position: relative;
+    width: 300px;
+    height: 200px;
+}
+
+/* .mycontainer .mycard .face{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    transition: 0.5s;
+} */
+
+/* .mycontainer .mycard .face.face1{
+    background: #333;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1;
+    transform-origin: bottom;
+} */
+
+
+
+/* .mycontainer .mycard .face.face1 h3{
+    margin: 10px 0 0;
+    color: #fff;
+    text-align: center;
+    font-size: 1.5em;
+} */
+
+.mycontainer .mycard:hover .face.face1{
+    transform: translateY(-100%) rotateX(90deg);
+    background: #07a5fb;
+}
+
+.mycontainer .mycard .face.face2{
+    background: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    transform-origin: top;
+    transform: translateY(100%) rotateX(90deg);
+}
+
+.mycontainer .mycard:hover .face.face2{
+    transform: translateY(0%) rotateX(0deg);
+}
