@@ -59,11 +59,11 @@ mybody{
 
 .mycontainer .mycard:hover .face.face1{
     transform: translateY(-100%) rotateX(90deg);
-    background: #07a5fb;
+    background: transparent;
 }
 
 .mycontainer .mycard .face.face2{
-    background: #fff;
+    background: transparent;
     display: flex;
     justify-content: center;
     align-items: center;
