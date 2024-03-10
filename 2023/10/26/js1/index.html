@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="zh"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta><title>JavaScript基础（一） - 鱼越大，鱼越小</title><link rel="manifest" href="/manifest.json"><meta name="application-name" content="鱼越大，鱼越小"><meta name="msapplication-TileImage" content="/img/logo.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="鱼越大，鱼越小"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="description" content="数据类型 操作符 显示输出"><meta property="og:type" content="blog"><meta property="og:title" content="JavaScript基础（一）"><meta property="og:url" content="http://example.com/2023/10/26/js1/"><meta property="og:site_name" content="鱼越大，鱼越小"><meta property="og:description" content="数据类型 操作符 显示输出"><meta property="og:locale" content="zh_CN"><meta property="og:image" content="http://example.com/img/og_image.png"><meta property="article:published_time" content="2023-10-26T03:09:08.000Z"><meta property="article:modified_time" content="2024-03-10T15:33:17.158Z"><meta property="article:author" content="梦游"><meta property="article:tag" content="JavaScript"><meta property="twitter:card" content="summary"><meta property="twitter:image:src" content="http://example.com/img/og_image.png"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"http://example.com/2023/10/26/js1/"},"headline":"JavaScript基础（一）","image":["http://example.com/img/og_image.png"],"datePublished":"2023-10-26T03:09:08.000Z","dateModified":"2024-03-10T15:33:17.158Z","author":{"@type":"Person","name":"梦游"},"publisher":{"@type":"Organization","name":"鱼越大，鱼越小","logo":{"@type":"ImageObject","url":"http://example.com/img/logo.png"}},"description":"数据类型 操作符 显示输出"}</script><link rel="canonical" href="http://example.com/2023/10/26/js1/"><link rel="icon" href="/img/logo.png"><link rel="stylesheet" href="/css/all.css"><link rel="stylesheet" href="/css/atom-one-dark.css"><link rel="stylesheet" href="/css/css2?family=Ubuntu:wght@400;600&amp;family=Source+Code+Pro"><link rel="stylesheet" href="/css/default.css"><style>body>.footer,body>.navbar,body>.section{opacity:0}</style><!--!--><link rel="stylesheet" href="/css/art.css"><!-- hexo injector head_end start --><script>
+  (function () {
+      function switchTab() {
+          if (!location.hash) {
+            return;
+          }
+
+          const id = '#' + CSS.escape(location.hash.substring(1));
+          const $tabMenu = document.querySelector(`.tabs a[href="${id}"]`);
+          if (!$tabMenu) {
+            return;
+          }
+
+          const $tabMenuContainer = $tabMenu.parentElement.parentElement;
+          Array.from($tabMenuContainer.children).forEach($menu => $menu.classList.remove('is-active'));
+          Array.from($tabMenuContainer.querySelectorAll('a'))
+              .map($menu => document.getElementById($menu.getAttribute("href").substring(1)))
+              .forEach($content => $content.classList.add('is-hidden'));
+
+          if ($tabMenu) {
+              $tabMenu.parentElement.classList.add('is-active');
+          }
+          const $activeTab = document.querySelector(id);
+          if ($activeTab) {
+              $activeTab.classList.remove('is-hidden');
+          }
+      }
+      switchTab();
+      window.addEventListener('hashchange', switchTab, false);
+  })();
+  </script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.1.1"></head><body class="is-3-column"><script type="text/javascript" src="/js/night.js"></script><canvas id="universe"></canvas><nav class="navbar navbar-main"><div class="container navbar-container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/"><img src="/img/logo.png" alt="鱼越大，鱼越小" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/">主页</a><a class="navbar-item" href="/classification/index.html">分类</a><a class="navbar-item" href="/codebase/index.html">编程基础</a><a class="navbar-item" href="/about/index.html">碎碎念</a></div><div class="navbar-end"><a class="navbar-item is-hidden-tablet catalogue" title="目录" href="javascript:;"><i class="fas fa-list-ul"></i></a><a class="navbar-item night" id="night-nav" title="Night Mode" href="javascript:;"><i class="fas fa-moon" id="night-icon"></i></a><a class="navbar-item" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/mengyouxz"><i class="fab fa-github"></i></a><a class="navbar-item search" title="搜索" href="javascript:;"><i class="fas fa-search"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main"><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2023-10-26T03:09:08.000Z" title="2023/10/26 11:09:08">2023-10-26</time>发表</span><span class="level-item"><time dateTime="2024-03-10T15:33:17.158Z" title="2024/3/10 23:33:17">2024-03-10</time>更新</span><span class="level-item"><a class="link-muted" href="/categories/5-%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80/">5.编程基础</a><span> / </span><a class="link-muted" href="/categories/5-%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80/3-JavaScript/">3.JavaScript</a></span><span class="level-item">4 分钟读完 (大约530个字)</span></div></div><h1 class="title is-3 is-size-4-mobile">JavaScript基础（一）</h1><div class="content"><p>数据类型 操作符 显示输出</p>
+<span id="more"></span>
+<h3 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h3><h4 id="数据类型-1"><a href="#数据类型-1" class="headerlink" title="数据类型"></a>数据类型</h4><ul>
+<li>值类型<ul>
+<li>String</li>
+<li>Number</li>
+<li>Boolean （true,false）</li>
+<li>Null</li>
+<li>Undefined 表示这个变量不含有值</li>
+<li>Symbol（ES6：表示独一无二的值）</li>
+</ul>
+</li>
+<li>对象类型（引用数据类型）<ul>
+<li>Object {}</li>
+<li>Array []</li>
+<li>Function {}</li>
+<li>RegExp（正则）</li>
+<li>Date</li>
+</ul>
+</li>
+<li>使用 <em>typeof</em> 查看类型</li>
+<li>声明新的变量时可以使用<em>new &lt;变量类型&gt;</em></li>
+</ul>
+<h4 id="类型隐式转换"><a href="#类型隐式转换" class="headerlink" title="类型隐式转换"></a>类型隐式转换</h4><ul>
+<li>+- 转换为Number，如果无法转换返回NaN</li>
+<li>+- 字符串时 强制转换为字符串拼接</li>
+<li><code>&gt;&lt;</code> 比较时非数值转换为数值，字符串比较时转换为Unicode编码</li>
+</ul>
+<h4 id="常量"><a href="#常量" class="headerlink" title="常量"></a>常量</h4><ul>
+<li><p>使用const</p>
+<ul>
+<li><code>const a = 0;</code></li>
+<li>命名：大驼峰AppleApple 小驼峰appleApple 下划线apple_Apple</li>
+<li>区分小写<ul>
+<li>Myfunction  !&#x3D; myFunction</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>常数 Number 0123</p>
+</li>
+<li><p>字符串 String ‘a’ “ab” ‘asd’</p>
+</li>
+<li><p>数组 Array [1,2,3,’a’,’’bsda]</p>
+</li>
+<li><p>对象 Object </p>
+<ul>
+<li><code>&#123;name:adb,age:123&#125;</code></li>
+</ul>
+</li>
+<li><p>函数 Function</p>
+<ul>
+<li><code>function myfn(a,b)&#123;&#125;</code></li>
+</ul>
+</li>
+</ul>
+<h4 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h4><ul>
+<li>使用var声明<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> length = <span class="number">6</span></span><br><span class="line"><span class="keyword">var</span> length1 = <span class="number">6</span>,length2 = <span class="number">6</span>,length3 = <span class="string">&#x27;6&#x27;</span></span><br><span class="line"><span class="keyword">var</span> length4 <span class="comment">//未赋值的变量默认为undefined</span></span><br><span class="line"><span class="comment">//允许重复声明后声明的覆盖前面的</span></span><br></pre></td></tr></table></figure></li>
+<li>let和var区别<ul>
+<li>let是ES6新增的语法声明变量作用在块级作用域</li>
+<li>let 声明的变量不会提前，var会提前作用在整个window</li>
+<li>let不能重复定义</li>
+</ul>
+</li>
+</ul>
+<h3 id="操作符"><a href="#操作符" class="headerlink" title="操作符"></a>操作符</h3><ul>
+<li><p>+  - * &#x2F; &#x3D;</p>
+</li>
+<li><p>=&#x3D;(比较时先转换类似后比较) </p>
+</li>
+<li><p>&#x3D;&#x3D;&#x3D;(全等包括数据类型)</p>
+</li>
+<li><p>!&#x3D; 不等</p>
+</li>
+<li><p>&lt; &gt; </p>
+</li>
+<li><p>&lt;&lt; &gt;&gt; 位运算</p>
+</li>
+<li><p>&amp;&amp;  <code>||</code> 有0则0，有1则1</p>
+</li>
+<li><p>?? 和 || 的用法相同，都是前后是值，中间用符号连接，根据前面的值来判断最终是返回前面的值还是后面的值</p>
+<ul>
+<li>One ?? Two 使用 ?? 时，只有One为 null 或者 undefined 时才会返回 two;</li>
+<li>One || Two 使用 || 时，One会先转化为布尔值判断，为true时返回One , false 返回Two</li>
+</ul>
+</li>
+<li><p>NaN 不等于 NaN</p>
+</li>
+<li><p>三元运算符</p>
+<ul>
+<li>表达式1？表达式2:表达式3</li>
+<li>表达式1成立返回2，否则返回3</li>
+</ul>
+</li>
+<li><p>特殊错误</p>
+</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> age = <span class="number">100</span>;</span><br><span class="line"><span class="comment">// 写法有问题但不会报错</span></span><br><span class="line"><span class="keyword">let</span> retval = <span class="number">10</span> &lt; age &lt; <span class="number">50</span>;</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(retval);</span><br><span class="line">结果为<span class="literal">true</span></span><br></pre></td></tr></table></figure>
+<h3 id="显示输出"><a href="#显示输出" class="headerlink" title="显示输出"></a>显示输出</h3><ul>
+<li>浏览器环境<ul>
+<li>window.alert(‘弹出警告框’);</li>
+<li>document.write()</li>
+<li>console.log()</li>
+<li>innerHTML<ul>
+<li>document.getElementById(‘demo’).innerHTML &#x3D; ‘nihao’</li>
+<li>&#x2F;&#x2F;向id为demo的Html元素输出nihao</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div><div class="article-tags is-size-7 mb-4"><span class="mr-2">#</span><a class="link-muted mr-2" rel="tag" href="/tags/JavaScript/">JavaScript</a></div><!--!--></article></div><!--!--><nav class="post-navigation mt-4 level is-mobile"><div class="level-start"><a class="article-nav-prev level level-item link-muted" href="/2023/10/26/js2/"><i class="level-item fas fa-chevron-left"></i><span class="level-item">JavaScript基础（二）</span></a></div><div class="level-end"><a class="article-nav-next level level-item link-muted" href="/2023/10/26/html1/"><span class="level-item">Html基础</span><i class="level-item fas fa-chevron-right"></i></a></div></nav><!--!--></div><div class="column column-left is-4-tablet is-4-desktop is-3-widescreen  order-1 is-sticky"><div class="card widget" data-type="profile"><div class="card-content"><nav class="level"><div class="level-item has-text-centered flex-shrink-1"><div><figure class="image is-128x128 mx-auto mb-2"><img class="avatar is-rounded" src="/img/logo.gif" alt="SleepWalking"></figure><p class="title is-size-4 is-block" style="line-height:inherit;">SleepWalking</p><p class="is-size-6 is-block">o.0</p><p class="is-size-6 is-flex justify-content-center"><i class="fas fa-map-marker-alt mr-1"></i><span>Moon</span></p></div></div></nav><nav class="level is-mobile"><div class="level-item has-text-centered is-marginless"><div><p class="heading">文章</p><a href="/archives"><p class="title">55</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">分类</p><a href="/categories"><p class="title">19</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">标签</p><a href="/tags"><p class="title">25</p></a></div></div></nav></div></div><div class="card widget" id="toc" data-type="toc"><div class="card-content"><div class="menu"><h3 class="menu-label">目录</h3><ul class="menu-list"><li><a class="level is-mobile" href="#数据类型"><span class="level-left"><span class="level-item">1</span><span class="level-item">数据类型</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#数据类型-1"><span class="level-left"><span class="level-item">1.1</span><span class="level-item">数据类型</span></span></a></li><li><a class="level is-mobile" href="#类型隐式转换"><span class="level-left"><span class="level-item">1.2</span><span class="level-item">类型隐式转换</span></span></a></li><li><a class="level is-mobile" href="#常量"><span class="level-left"><span class="level-item">1.3</span><span class="level-item">常量</span></span></a></li><li><a class="level is-mobile" href="#变量"><span class="level-left"><span class="level-item">1.4</span><span class="level-item">变量</span></span></a></li></ul></li><li><a class="level is-mobile" href="#操作符"><span class="level-left"><span class="level-item">2</span><span class="level-item">操作符</span></span></a></li><li><a class="level is-mobile" href="#显示输出"><span class="level-left"><span class="level-item">3</span><span class="level-item">显示输出</span></span></a></li></ul></div></div><style>#toc .menu-list > li > a.is-active + .menu-list { display: block; }#toc .menu-list > li > a + .menu-list { display: none; }</style><script src="/js/toc.js" defer></script></div><div class="card widget" data-type="recent-posts"><div class="card-content"><h3 class="menu-label">最新文章</h3><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-01-20T08:02:10.000Z">2024-01-20</time></p><p class="title"><a href="/2024/01/20/jshunxiao3/">混淆处理思路</a></p><p class="categories"><a href="/categories/2-Js%E9%80%86%E5%90%91/">2.Js逆向</a> / <a href="/categories/2-Js%E9%80%86%E5%90%91/3-Js%E6%B7%B7%E6%B7%86/">3.Js混淆</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-01-20T01:34:46.000Z">2024-01-20</time></p><p class="title"><a href="/2024/01/20/yanzheng3/">验证码处理(三)</a></p><p class="categories"><a href="/categories/1-%E7%88%AC%E8%99%AB/">1.爬虫</a> / <a href="/categories/1-%E7%88%AC%E8%99%AB/3-%E9%AA%8C%E8%AF%81%E7%A0%81%E5%A4%84%E7%90%86/">3.验证码处理</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-01-18T13:15:45.000Z">2024-01-18</time></p><p class="title"><a href="/2024/01/18/forward2/">使用RPC转发数据</a></p><p class="categories"><a href="/categories/1-%E7%88%AC%E8%99%AB/">1.爬虫</a> / <a href="/categories/1-%E7%88%AC%E8%99%AB/4-%E6%8A%93%E5%8C%85%E5%B7%A5%E5%85%B7/">4.抓包工具</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-01-18T10:35:56.000Z">2024-01-18</time></p><p class="title"><a href="/2024/01/18/forward1/">使用Fiddler转发数据</a></p><p class="categories"><a href="/categories/1-%E7%88%AC%E8%99%AB/">1.爬虫</a> / <a href="/categories/1-%E7%88%AC%E8%99%AB/4-%E6%8A%93%E5%8C%85%E5%B7%A5%E5%85%B7/">4.抓包工具</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-01-18T10:01:35.000Z">2024-01-18</time></p><p class="title"><a href="/2024/01/18/jsfx/">Js逆向分析(一)</a></p><p class="categories"><a href="/categories/2-Js%E9%80%86%E5%90%91/">2.Js逆向</a> / <a href="/categories/2-Js%E9%80%86%E5%90%91/1-%E5%AF%86%E7%A0%81%E5%AD%A6/">1.密码学</a></p></div></article></div></div><div class="card widget" data-type="tags"><div class="card-content"><div class="menu"><h3 class="menu-label">标签</h3><div class="field is-grouped is-grouped-multiline"><div class="control"><a class="tags has-addons" href="/tags/Charles/"><span class="tag">Charles</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Css/"><span class="tag">Css</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Fiddler/"><span class="tag">Fiddler</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Html/"><span class="tag">Html</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/JavaScript/"><span class="tag">JavaScript</span><span class="tag">15</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Jscipher/"><span class="tag">Jscipher</span><span class="tag">5</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Js%E6%B7%B7%E6%B7%86/"><span class="tag">Js混淆</span><span class="tag">3</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Js%E9%80%86%E5%90%91/"><span class="tag">Js逆向</span><span class="tag">11</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Mongodb/"><span class="tag">Mongodb</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/MySql/"><span class="tag">MySql</span><span class="tag">5</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Proxifie/"><span class="tag">Proxifie</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Python/"><span class="tag">Python</span><span class="tag">16</span></a></div><div class="control"><a class="tags has-addons" href="/tags/RPC/"><span class="tag">RPC</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Redis/"><span class="tag">Redis</span><span class="tag">3</span></a></div><div class="control"><a class="tags has-addons" href="/tags/SQlite/"><span class="tag">SQlite</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Spider/"><span class="tag">Spider</span><span class="tag">4</span></a></div><div class="control"><a class="tags has-addons" href="/tags/TinyDB/"><span class="tag">TinyDB</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/aiohttp/"><span class="tag">aiohttp</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/cipher/"><span class="tag">cipher</span><span class="tag">3</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%88%B7%E6%9C%BA/"><span class="tag">刷机</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%AE%89%E5%8D%93%E9%80%86%E5%90%91/"><span class="tag">安卓逆向</span><span class="tag">6</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/"><span class="tag">数据库</span><span class="tag">12</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%BB%91%E5%9D%97/"><span class="tag">滑块</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%88%AC%E8%99%AB/"><span class="tag">爬虫</span><span class="tag">5</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E9%AA%8C%E8%AF%81%E7%A0%81/"><span class="tag">验证码</span><span class="tag">3</span></a></div></div></div></div></div><div class="column-right-shadow is-hidden-widescreen is-sticky"></div></div></div></div></section><footer class="footer"><div class="container"><div class="level"><div class="level-start"><a class="footer-logo is-block mb-2" href="/"><img src="/img/logo.png" alt="鱼越大，鱼越小" height="28"></a><p class="is-size-7"><span>&copy; 2024 梦游</span>  Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> &amp; <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a></p></div><div class="level-end"><div class="field has-addons"><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/mengyouxz"><i class="fab fa-github"></i></a></p></div></div></div></div></footer><script src="/js/jquery.min.js"></script><script src="/js/moment-with-locales.min.js"></script><script src="/js/clipboard.min.js"></script><script>moment.locale("zh-cn");</script><script>var IcarusThemeSettings = {
+            article: {
+                highlight: {
+                    clipboard: true,
+                    fold: 'unfolded'
+                }
+            }
+        };</script><script src="/js/column.js"></script><script src="/js/animation.js"></script><a id="back-to-top" title="回到顶端" href="javascript:;"><i class="fas fa-chevron-up"></i></a><script src="/js/back_to_top.js" defer></script><script src="/js/main.js" defer></script><div class="searchbox"><div class="searchbox-container"><div class="searchbox-header"><div class="searchbox-input-container"><input class="searchbox-input" type="text" placeholder="想要查找什么..."></div><a class="searchbox-close" href="javascript:;">×</a></div><div class="searchbox-body"></div></div></div><script src="/js/insight.js" defer></script><script>document.addEventListener('DOMContentLoaded', function () {
+            loadInsight({"contentUrl":"/content.json"}, {"hint":"想要查找什么...","untitled":"(无标题)","posts":"文章","pages":"页面","categories":"分类","tags":"标签"});
+        });</script><script type="text/javascript" src="/js/universe.js"></script></body></html>
