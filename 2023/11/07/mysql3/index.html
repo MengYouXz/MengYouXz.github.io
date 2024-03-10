@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="zh"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta><title>MySql(三) - 鱼越大，鱼越小</title><link rel="manifest" href="/manifest.json"><meta name="application-name" content="鱼越大，鱼越小"><meta name="msapplication-TileImage" content="/img/logo.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="鱼越大，鱼越小"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="description" content="存储引擎 MySQL事务 表连接"><meta property="og:type" content="blog"><meta property="og:title" content="MySql(三)"><meta property="og:url" content="http://example.com/2023/11/07/mysql3/"><meta property="og:site_name" content="鱼越大，鱼越小"><meta property="og:description" content="存储引擎 MySQL事务 表连接"><meta property="og:locale" content="zh_CN"><meta property="og:image" content="http://example.com/img/og_image.png"><meta property="article:published_time" content="2023-11-07T06:21:52.000Z"><meta property="article:modified_time" content="2024-03-08T08:59:18.083Z"><meta property="article:author" content="梦游"><meta property="article:tag" content="数据库"><meta property="article:tag" content="MySql"><meta property="twitter:card" content="summary"><meta property="twitter:image:src" content="http://example.com/img/og_image.png"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"http://example.com/2023/11/07/mysql3/"},"headline":"MySql(三)","image":["http://example.com/img/og_image.png"],"datePublished":"2023-11-07T06:21:52.000Z","dateModified":"2024-03-08T08:59:18.083Z","author":{"@type":"Person","name":"梦游"},"publisher":{"@type":"Organization","name":"鱼越大，鱼越小","logo":{"@type":"ImageObject","url":"http://example.com/img/logo.png"}},"description":"存储引擎 MySQL事务 表连接"}</script><link rel="canonical" href="http://example.com/2023/11/07/mysql3/"><link rel="icon" href="/img/logo.png"><link rel="stylesheet" href="/css/all.css"><link rel="stylesheet" href="/css/atom-one-dark.css"><link rel="stylesheet" href="/css/css2?family=Ubuntu:wght@400;600&amp;family=Source+Code+Pro"><link rel="stylesheet" href="/css/default.css"><style>body>.footer,body>.navbar,body>.section{opacity:0}</style><!--!--><link rel="stylesheet" href="/css/art.css"><!-- hexo injector head_end start --><script>
+  (function () {
+      function switchTab() {
+          if (!location.hash) {
+            return;
+          }
+
+          const id = '#' + CSS.escape(location.hash.substring(1));
+          const $tabMenu = document.querySelector(`.tabs a[href="${id}"]`);
+          if (!$tabMenu) {
+            return;
+          }
+
+          const $tabMenuContainer = $tabMenu.parentElement.parentElement;
+          Array.from($tabMenuContainer.children).forEach($menu => $menu.classList.remove('is-active'));
+          Array.from($tabMenuContainer.querySelectorAll('a'))
+              .map($menu => document.getElementById($menu.getAttribute("href").substring(1)))
+              .forEach($content => $content.classList.add('is-hidden'));
+
+          if ($tabMenu) {
+              $tabMenu.parentElement.classList.add('is-active');
+          }
+          const $activeTab = document.querySelector(id);
+          if ($activeTab) {
+              $activeTab.classList.remove('is-hidden');
+          }
+      }
+      switchTab();
+      window.addEventListener('hashchange', switchTab, false);
+  })();
+  </script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.1.1"></head><body class="is-3-column"><script type="text/javascript" src="/js/night.js"></script><canvas id="universe"></canvas><nav class="navbar navbar-main"><div class="container navbar-container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/"><img src="/img/logo.png" alt="鱼越大，鱼越小" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/">主页</a><a class="navbar-item" href="/classification/index.html">分类</a><a class="navbar-item" href="/codebase/index.html">编程基础</a><a class="navbar-item" href="/about/index.html">碎碎念</a></div><div class="navbar-end"><a class="navbar-item is-hidden-tablet catalogue" title="目录" href="javascript:;"><i class="fas fa-list-ul"></i></a><a class="navbar-item night" id="night-nav" title="Night Mode" href="javascript:;"><i class="fas fa-moon" id="night-icon"></i></a><a class="navbar-item" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/mengyouxz"><i class="fab fa-github"></i></a><a class="navbar-item search" title="搜索" href="javascript:;"><i class="fas fa-search"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main"><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2023-11-07T06:21:52.000Z" title="2023/11/7 14:21:52">2023-11-07</time>发表</span><span class="level-item"><time dateTime="2024-03-08T08:59:18.083Z" title="2024/3/8 16:59:18">2024-03-08</time>更新</span><span class="level-item"><a class="link-muted" href="/categories/4-%E6%95%B0%E6%8D%AE%E5%BA%93/">4.数据库</a><span> / </span><a class="link-muted" href="/categories/4-%E6%95%B0%E6%8D%AE%E5%BA%93/2-MySql/">2.MySql</a></span><span class="level-item">5 分钟读完 (大约696个字)</span></div></div><h1 class="title is-3 is-size-4-mobile">MySql(三)</h1><div class="content"><p>存储引擎 MySQL事务 表连接</p>
+<span id="more"></span>
+<h3 id="存储引擎"><a href="#存储引擎" class="headerlink" title="存储引擎"></a>存储引擎</h3><ul>
+<li>MySql的存储引擎是插件式的，支持多种引擎<ul>
+<li>5.0支持 MyISAM InnoDB BDB MEMORY等</li>
+<li>InnoDB BDB是事务性安全表</li>
+<li>5.5之后默认为InnoDB，之前均为MyISAM<ul>
+<li><code>mysql&gt; show engines;</code>查看支持引擎</li>
+<li><code>mysql&gt; alter table xx engine=myisam;</code>修改引擎</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>MyISAM<ul>
+<li>不支持事务，优点是速度快</li>
+<li>如果主要以select，insert为主的可以使用</li>
+</ul>
+</li>
+<li>InnoDB<ul>
+<li>提供事务（提交，回滚，崩溃恢复）</li>
+<li>比MyISAM速度慢，磁盘占用多</li>
+</ul>
+</li>
+<li>MEMORY<ul>
+<li>使用内存中的数据来建表，数据放在内存中，速度很快，服务关闭时数据丢失</li>
+</ul>
+</li>
+</ul>
+<h3 id="MySQL事务"><a href="#MySQL事务" class="headerlink" title="MySQL事务"></a>MySQL事务</h3><ul>
+<li>四大特性<ul>
+<li>原子性：一个事务中的所有操作，要么全部完成要么全部不完成，出现错误会回滚到事务开始之前。</li>
+<li>一致性：在事务开始之前和结束之后，数据库的完整性没有被破坏，表示写入数据必须完全符合所有预设规则。</li>
+<li>隔离性：数据库允许多个并发事务同时对其数据进行读写和修改的操作，隔离性可以防止多个事务并发执行时由于交叉执行而导致数据的不一致。</li>
+<li>持久性：事务结束后，对数据的修改是永久的。</li>
+</ul>
+</li>
+<li>操作<ul>
+<li>mysql&gt; start transaction; 开启事务</li>
+<li>mysql&gt; commit; 提交内容</li>
+<li>mysql&gt; rollback; 回滚</li>
+<li>mysql&gt; commit and chain; 提交并开启新事务</li>
+<li>表锁：进行表锁后只能有一个线程去操作表，其他线程会被阻塞<ul>
+<li>mysql&gt; lock table xxx write；xxx表的写权限上锁，其他不受影响</li>
+<li>mysql&gt; unlock tables; 解锁</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="表连接"><a href="#表连接" class="headerlink" title="表连接"></a>表连接</h3><ul>
+<li>通常多个表之间的数据会有联系，同时选择多个关联的表<ul>
+<li>内连接：选出两张表中相匹配的记录，本质上是找两个表的相同部分<ul>
+<li><code>select xxx,xxx,xxx from 表1，表2 where 表1.xxx=表2.xxx;</code></li>
+</ul>
+</li>
+<li>外连接：本质上是包含某一个表的全部信息<ul>
+<li>左外链接：包含所有左边表的记录，右表没有和他匹配的为NULL</li>
+<li><code>select xxx,xxx,xxx from 表1 left join 表2 on 表1.xxx=表2.xxx;</code></li>
+<li>右外连接：包含所有右边表的记录，左表没有和他匹配的为NULL</li>
+<li><code>select xxx,xxx,xxx from 表2 right join 表1 on 表1.xxx=表2.xxx;</code></li>
+</ul>
+</li>
+<li>子查询<ul>
+<li>当进行查询的时候，查询条件需要另一个SQL命令的结果</li>
+<li>子查询需要两张表的字段名字一致</li>
+<li><code>alter table 表1名 change xxx yyy int</code> 把表1中xxx改为yyy</li>
+<li><code>select * from 表1 where xxx in (select xxx from xxx);</code></li>
+<li>in可以用&#x3D;替代</li>
+<li><code>select * from 表1 where xxx = (select xxx from xxx limit 1);</code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div><div class="article-tags is-size-7 mb-4"><span class="mr-2">#</span><a class="link-muted mr-2" rel="tag" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a><a class="link-muted mr-2" rel="tag" href="/tags/MySql/">MySql</a></div><!--!--></article></div><!--!--><nav class="post-navigation mt-4 level is-mobile"><div class="level-start"><a class="article-nav-prev level level-item link-muted" href="/2023/11/07/mysql4/"><i class="level-item fas fa-chevron-left"></i><span class="level-item">MySql(四)</span></a></div><div class="level-end"><a class="article-nav-next level level-item link-muted" href="/2023/11/07/mysql2/"><span class="level-item">MySql(二)</span><i class="level-item fas fa-chevron-right"></i></a></div></nav><!--!--></div><div class="column column-left is-4-tablet is-4-desktop is-3-widescreen  order-1 is-sticky"><div class="card widget" data-type="profile"><div class="card-content"><nav class="level"><div class="level-item has-text-centered flex-shrink-1"><div><figure class="image is-128x128 mx-auto mb-2"><img class="avatar is-rounded" src="/img/logo.gif" alt="SleepWalking"></figure><p class="title is-size-4 is-block" style="line-height:inherit;">SleepWalking</p><p class="is-size-6 is-block">o.0</p><p class="is-size-6 is-flex justify-content-center"><i class="fas fa-map-marker-alt mr-1"></i><span>Moon</span></p></div></div></nav><nav class="level is-mobile"><div class="level-item has-text-centered is-marginless"><div><p class="heading">文章</p><a href="/archives"><p class="title">35</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">分类</p><a href="/categories"><p class="title">14</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">标签</p><a href="/tags"><p class="title">15</p></a></div></div></nav></div></div><div class="card widget" id="toc" data-type="toc"><div class="card-content"><div class="menu"><h3 class="menu-label">目录</h3><ul class="menu-list"><li><a class="level is-mobile" href="#存储引擎"><span class="level-left"><span class="level-item">1</span><span class="level-item">存储引擎</span></span></a></li><li><a class="level is-mobile" href="#MySQL事务"><span class="level-left"><span class="level-item">2</span><span class="level-item">MySQL事务</span></span></a></li><li><a class="level is-mobile" href="#表连接"><span class="level-left"><span class="level-item">3</span><span class="level-item">表连接</span></span></a></li></ul></div></div><style>#toc .menu-list > li > a.is-active + .menu-list { display: block; }#toc .menu-list > li > a + .menu-list { display: none; }</style><script src="/js/toc.js" defer></script></div><div class="card widget" data-type="recent-posts"><div class="card-content"><h3 class="menu-label">最新文章</h3><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-01-16T07:23:45.000Z">2024-01-16</time></p><p class="title"><a href="/2024/01/16/myaio/">异步爬虫使用</a></p><p class="categories"><a href="/categories/1-%E7%88%AC%E8%99%AB/">1.爬虫</a> / <a href="/categories/1-%E7%88%AC%E8%99%AB/1-%E7%88%AC%E8%99%AB%E5%9F%BA%E7%A1%80/">1.爬虫基础</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2023-11-13T08:48:06.000Z">2023-11-13</time></p><p class="title"><a href="/2023/11/13/mongo2/">Mongodb(二)</a></p><p class="categories"><a href="/categories/4-%E6%95%B0%E6%8D%AE%E5%BA%93/">4.数据库</a> / <a href="/categories/4-%E6%95%B0%E6%8D%AE%E5%BA%93/3-Mongodb/">3.Mongodb</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2023-11-13T06:58:24.000Z">2023-11-13</time></p><p class="title"><a href="/2023/11/13/mongo1/">Mongodb(一)</a></p><p class="categories"><a href="/categories/4-%E6%95%B0%E6%8D%AE%E5%BA%93/">4.数据库</a> / <a href="/categories/4-%E6%95%B0%E6%8D%AE%E5%BA%93/3-Mongodb/">3.Mongodb</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2023-11-12T10:02:54.000Z">2023-11-12</time></p><p class="title"><a href="/2023/11/12/redis3/">Redis(三)</a></p><p class="categories"><a href="/categories/4-%E6%95%B0%E6%8D%AE%E5%BA%93/">4.数据库</a> / <a href="/categories/4-%E6%95%B0%E6%8D%AE%E5%BA%93/4-Redis/">4.Redis</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2023-11-09T11:58:29.000Z">2023-11-09</time></p><p class="title"><a href="/2023/11/09/redis2/">Redis(二)</a></p><p class="categories"><a href="/categories/4-%E6%95%B0%E6%8D%AE%E5%BA%93/">4.数据库</a> / <a href="/categories/4-%E6%95%B0%E6%8D%AE%E5%BA%93/4-Redis/">4.Redis</a></p></div></article></div></div><div class="card widget" data-type="tags"><div class="card-content"><div class="menu"><h3 class="menu-label">标签</h3><div class="field is-grouped is-grouped-multiline"><div class="control"><a class="tags has-addons" href="/tags/JavaScript/"><span class="tag">JavaScript</span><span class="tag">4</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Jscipher/"><span class="tag">Jscipher</span><span class="tag">4</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Js%E9%80%86%E5%90%91/"><span class="tag">Js逆向</span><span class="tag">7</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Mongodb/"><span class="tag">Mongodb</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/MySql/"><span class="tag">MySql</span><span class="tag">5</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Python/"><span class="tag">Python</span><span class="tag">13</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Redis/"><span class="tag">Redis</span><span class="tag">3</span></a></div><div class="control"><a class="tags has-addons" href="/tags/SQlite/"><span class="tag">SQlite</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/TinyDB/"><span class="tag">TinyDB</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/aiohttp/"><span class="tag">aiohttp</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/cipher/"><span class="tag">cipher</span><span class="tag">3</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%88%B7%E6%9C%BA/"><span class="tag">刷机</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%AE%89%E5%8D%93%E9%80%86%E5%90%91/"><span class="tag">安卓逆向</span><span class="tag">6</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/"><span class="tag">数据库</span><span class="tag">12</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%88%AC%E8%99%AB/"><span class="tag">爬虫</span><span class="tag">5</span></a></div></div></div></div></div><div class="column-right-shadow is-hidden-widescreen is-sticky"></div></div></div></div></section><footer class="footer"><div class="container"><div class="level"><div class="level-start"><a class="footer-logo is-block mb-2" href="/"><img src="/img/logo.png" alt="鱼越大，鱼越小" height="28"></a><p class="is-size-7"><span>&copy; 2024 梦游</span>  Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> &amp; <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a></p></div><div class="level-end"><div class="field has-addons"><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/mengyouxz"><i class="fab fa-github"></i></a></p></div></div></div></div></footer><script src="/js/jquery.min.js"></script><script src="/js/moment-with-locales.min.js"></script><script src="/js/clipboard.min.js"></script><script>moment.locale("zh-cn");</script><script>var IcarusThemeSettings = {
+            article: {
+                highlight: {
+                    clipboard: true,
+                    fold: 'unfolded'
+                }
+            }
+        };</script><script src="/js/column.js"></script><script src="/js/animation.js"></script><a id="back-to-top" title="回到顶端" href="javascript:;"><i class="fas fa-chevron-up"></i></a><script src="/js/back_to_top.js" defer></script><script src="/js/main.js" defer></script><div class="searchbox"><div class="searchbox-container"><div class="searchbox-header"><div class="searchbox-input-container"><input class="searchbox-input" type="text" placeholder="想要查找什么..."></div><a class="searchbox-close" href="javascript:;">×</a></div><div class="searchbox-body"></div></div></div><script src="/js/insight.js" defer></script><script>document.addEventListener('DOMContentLoaded', function () {
+            loadInsight({"contentUrl":"/content.json"}, {"hint":"想要查找什么...","untitled":"(无标题)","posts":"文章","pages":"页面","categories":"分类","tags":"标签"});
+        });</script><script type="text/javascript" src="/js/universe.js"></script></body></html>
