@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="zh"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta><title>Java基础(七) - 鱼越大，鱼越小</title><link rel="manifest" href="/manifest.json"><meta name="application-name" content="鱼越大，鱼越小"><meta name="msapplication-TileImage" content="/img/logo.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="鱼越大，鱼越小"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="description" content="多态 类方法 接口"><meta property="og:type" content="blog"><meta property="og:title" content="Java基础(七)"><meta property="og:url" content="http://example.com/2023/10/22/java7/"><meta property="og:site_name" content="鱼越大，鱼越小"><meta property="og:description" content="多态 类方法 接口"><meta property="og:locale" content="zh_CN"><meta property="og:image" content="http://example.com/img/og_image.png"><meta property="article:published_time" content="2023-10-22T12:20:32.000Z"><meta property="article:modified_time" content="2024-03-10T15:37:20.473Z"><meta property="article:author" content="梦游"><meta property="article:tag" content="Java"><meta property="twitter:card" content="summary"><meta property="twitter:image:src" content="http://example.com/img/og_image.png"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"http://example.com/2023/10/22/java7/"},"headline":"Java基础(七)","image":["http://example.com/img/og_image.png"],"datePublished":"2023-10-22T12:20:32.000Z","dateModified":"2024-03-10T15:37:20.473Z","author":{"@type":"Person","name":"梦游"},"publisher":{"@type":"Organization","name":"鱼越大，鱼越小","logo":{"@type":"ImageObject","url":"http://example.com/img/logo.png"}},"description":"多态 类方法 接口"}</script><link rel="canonical" href="http://example.com/2023/10/22/java7/"><link rel="icon" href="/img/logo.png"><link rel="stylesheet" href="/css/all.css"><link rel="stylesheet" href="/css/atom-one-dark.css"><link rel="stylesheet" href="/css/css2?family=Ubuntu:wght@400;600&amp;family=Source+Code+Pro"><link rel="stylesheet" href="/css/default.css"><style>body>.footer,body>.navbar,body>.section{opacity:0}</style><!--!--><link rel="stylesheet" href="/css/art.css"><!-- hexo injector head_end start --><script>
+  (function () {
+      function switchTab() {
+          if (!location.hash) {
+            return;
+          }
+
+          const id = '#' + CSS.escape(location.hash.substring(1));
+          const $tabMenu = document.querySelector(`.tabs a[href="${id}"]`);
+          if (!$tabMenu) {
+            return;
+          }
+
+          const $tabMenuContainer = $tabMenu.parentElement.parentElement;
+          Array.from($tabMenuContainer.children).forEach($menu => $menu.classList.remove('is-active'));
+          Array.from($tabMenuContainer.querySelectorAll('a'))
+              .map($menu => document.getElementById($menu.getAttribute("href").substring(1)))
+              .forEach($content => $content.classList.add('is-hidden'));
+
+          if ($tabMenu) {
+              $tabMenu.parentElement.classList.add('is-active');
+          }
+          const $activeTab = document.querySelector(id);
+          if ($activeTab) {
+              $activeTab.classList.remove('is-hidden');
+          }
+      }
+      switchTab();
+      window.addEventListener('hashchange', switchTab, false);
+  })();
+  </script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.1.1"></head><body class="is-3-column"><script type="text/javascript" src="/js/night.js"></script><canvas id="universe"></canvas><nav class="navbar navbar-main"><div class="container navbar-container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/"><img src="/img/logo.png" alt="鱼越大，鱼越小" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/">主页</a><a class="navbar-item" href="/classification/index.html">分类</a><a class="navbar-item" href="/codebase/index.html">编程基础</a><a class="navbar-item" href="/about/index.html">碎碎念</a></div><div class="navbar-end"><a class="navbar-item is-hidden-tablet catalogue" title="目录" href="javascript:;"><i class="fas fa-list-ul"></i></a><a class="navbar-item night" id="night-nav" title="Night Mode" href="javascript:;"><i class="fas fa-moon" id="night-icon"></i></a><a class="navbar-item" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/mengyouxz"><i class="fab fa-github"></i></a><a class="navbar-item search" title="搜索" href="javascript:;"><i class="fas fa-search"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main"><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2023-10-22T12:20:32.000Z" title="2023/10/22 20:20:32">2023-10-22</time>发表</span><span class="level-item"><time dateTime="2024-03-10T15:37:20.473Z" title="2024/3/10 23:37:20">2024-03-10</time>更新</span><span class="level-item"><a class="link-muted" href="/categories/5-%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80/">5.编程基础</a><span> / </span><a class="link-muted" href="/categories/5-%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80/2-Java/">2.Java</a></span><span class="level-item">8 分钟读完 (大约1128个字)</span></div></div><h1 class="title is-3 is-size-4-mobile">Java基础(七)</h1><div class="content"><p>多态 类方法 接口</p>
+<span id="more"></span>
+<h3 id="多态"><a href="#多态" class="headerlink" title="多态"></a>多态</h3><ul>
+<li><p>多态的前提是两个对象存在继承关系</p>
+</li>
+<li><p>参数定义为父类型，就可以将任意子类型传入</p>
+</li>
+<li><p>向上转型语法</p>
+<ul>
+<li>父类类型 引用名 &#x3D; new 子类类型();</li>
+</ul>
+</li>
+<li><p>父类引用指向子类对象</p>
+</li>
+<li><p>编译类型看左边，运行类型看右边</p>
+<ul>
+<li>属性的值看编译类型</li>
+<li>编译类型是给编译器看，因为在编译器看类父类中没有子类特有的属性，所以不能调用子类中特有的成员</li>
+<li>方法看运行类型，属性看编译类型</li>
+<li>instanceOf 判断运行类型是否存在继承关系</li>
+</ul>
+</li>
+<li><p>可以调用父类中的所有成员（受访问修饰符影响）</p>
+</li>
+<li><p>调用的时候，子类有就用子类成员，子类没有就找父类（就近原则）</p>
+</li>
+<li><p>不能调用子类中特有的成员</p>
+</li>
+<li><p>要调用子类中特有的成员，需要向下转型（强制转换）转回实际类型</p>
+</li>
+<li><p>多态数组</p>
+<ul>
+<li>数组的定义类型为父类类型，里面保存的实际元素类型为子类类型</li>
+<li>要调用子类中特有的成员，需要向下转型（强制转换）转回实际类型</li>
+</ul>
+</li>
+<li><p>动态绑定机制</p>
+<ul>
+<li>当调用对象方法时，该方法会和该对象的内存地址&#x2F;运行类型进行绑定,不管是子类方法还时返回的函数，都先从子类开始找。</li>
+<li>当调用对象属性时，没有动态绑定机制，就近原则<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">test</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span>&#123;</span><br><span class="line">    <span class="type">B</span> <span class="variable">b</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">B</span>();</span><br><span class="line">    System.out.println(b.count);</span><br><span class="line">    b.display();</span><br><span class="line">    <span class="type">A</span> <span class="variable">a</span> <span class="operator">=</span> b;</span><br><span class="line">    System.out.println(a == b);</span><br><span class="line">    System.out.println(a.count);</span><br><span class="line">    a.display();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">A</span> &#123;</span><br><span class="line">    <span class="type">int</span> <span class="variable">count</span> <span class="operator">=</span> <span class="number">100</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">display</span><span class="params">()</span>&#123;System.out.println(<span class="built_in">this</span>.count);&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">B</span> <span class="keyword">extends</span> <span class="title class_">A</span> &#123; </span><br><span class="line">    <span class="type">int</span> <span class="variable">count</span> <span class="operator">=</span> <span class="number">200</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">display</span><span class="params">()</span>&#123;System.out.println(<span class="built_in">this</span>.count);&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">demo1</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span>&#123;</span><br><span class="line">    <span class="type">A</span> <span class="variable">a</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">B</span>();</span><br><span class="line">    System.out.println(a.sum());</span><br><span class="line">    System.out.println(a.sum1());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">A</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span><span class="number">10</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">sum</span><span class="params">()</span>&#123;<span class="keyword">return</span> geti();&#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">sum1</span><span class="params">()</span>&#123;<span class="keyword">return</span> i+<span class="number">10</span>;&#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">geti</span><span class="params">()</span>&#123;<span class="keyword">return</span> i;&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">B</span> <span class="keyword">extends</span> <span class="title class_">A</span> &#123; </span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span><span class="number">20</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">sum</span><span class="params">()</span>&#123;<span class="keyword">return</span> i+<span class="number">20</span>;&#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">sum1</span><span class="params">()</span>&#123;<span class="keyword">return</span> i+<span class="number">10</span>;&#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">geti</span><span class="params">()</span>&#123;<span class="keyword">return</span> i;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+</ul>
+<h3 id="类方法"><a href="#类方法" class="headerlink" title="类方法"></a>类方法</h3><ul>
+<li>equals <ul>
+<li>&#x3D;&#x3D; 判断基本类型判断值，判断引用类型判断地址</li>
+<li>equals推荐判断字符串，可以判断引用类型<ul>
+<li>Object中的方法，只会去判断引用类型的地址是否相等</li>
+<li>子类（String，Integer）会重写equals方法，判断内容是否相等</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>toString <ul>
+<li>默认返回 ：全类名+@+hash值</li>
+<li>子类重写toString方法，返回对象的属性</li>
+<li>直接输出一个对象时默认调用toString</li>
+</ul>
+</li>
+<li>finalize<ul>
+<li>释放资源</li>
+<li>某个对象没有任何引用时垃圾回收机制会销毁该对象，销毁前先调用finalize方法</li>
+<li>也可以主动使用System.gc()立即回收（不一定能立刻回收）</li>
+</ul>
+</li>
+<li>final <ul>
+<li>不希望类被继承</li>
+<li>不希望属性&#x2F;方法被修改</li>
+<li>使用注意<ul>
+<li>final修饰属性，必须初始化（或者在构造器中赋值，普通代码块中，但只能赋值一次），修改后不能再改</li>
+<li>包装类都是final类</li>
+<li>final修饰的类不能被继承但可以实例化对象</li>
+<li>final和static搭配使用时，不会加载类</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="接口"><a href="#接口" class="headerlink" title="接口"></a>接口</h3><ul>
+<li>基本语法<ul>
+<li>接口文件</li>
+<li>接口不能被实例化</li>
+</ul>
+</li>
+<li>继承：提高代码的复用性和可维护性</li>
+<li>接口：设计好各种规范，让其他类去实现这些方法，是对单继承的一种补充<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> interface 接口名&#123;</span><br><span class="line">    <span class="comment">//属性</span></span><br><span class="line">    <span class="comment">//方法（一般是抽象方法）</span></span><br><span class="line">    <span class="comment">//也可以使用静态方法static 可以有具体实现</span></span><br><span class="line">    <span class="comment">//也可以使用默认方法default 可以有具体实现</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Jieko</span> <span class="keyword">implements</span> <span class="title class_">jieko</span>&#123;</span><br><span class="line">    <span class="comment">//必须实现接口的所以抽象方法</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>接口不能被实例化</li>
+<li>接口的修饰符只能是public和默认（默认不写也是public）</li>
+<li>接口不能继承类，但可以继承多个接口，用逗号隔开</li>
+<li>默认接口方法都是public abstract </li>
+<li>默认接口属性都是public static final</li>
+<li>一个普通类实现接口，必须将该接口的所有方法都实现</li>
+<li>抽象类实现接口，可以不实现该接口的所有方法</li>
+<li>一个类可以实现多个接口</li>
+<li>接口中属性的访问形式：接口名.属性名，必须指定接口名或类名</li>
+</ul>
+</li>
+</ul>
+</div><div class="article-tags is-size-7 mb-4"><span class="mr-2">#</span><a class="link-muted mr-2" rel="tag" href="/tags/Java/">Java</a></div><!--!--></article></div><!--!--><nav class="post-navigation mt-4 level is-mobile"><div class="level-start"><a class="article-nav-prev level level-item link-muted" href="/2023/10/22/java8/"><i class="level-item fas fa-chevron-left"></i><span class="level-item">Java基础(八)</span></a></div><div class="level-end"><a class="article-nav-next level level-item link-muted" href="/2023/10/22/java6/"><span class="level-item">Java基础(六)</span><i class="level-item fas fa-chevron-right"></i></a></div></nav><!--!--></div><div class="column column-left is-4-tablet is-4-desktop is-3-widescreen  order-1 is-sticky"><div class="card widget" data-type="profile"><div class="card-content"><nav class="level"><div class="level-item has-text-centered flex-shrink-1"><div><figure class="image is-128x128 mx-auto mb-2"><img class="avatar is-rounded" src="/img/logo.gif" alt="SleepWalking"></figure><p class="title is-size-4 is-block" style="line-height:inherit;">SleepWalking</p><p class="is-size-6 is-block">o.0</p><p class="is-size-6 is-flex justify-content-center"><i class="fas fa-map-marker-alt mr-1"></i><span>Moon</span></p></div></div></nav><nav class="level is-mobile"><div class="level-item has-text-centered is-marginless"><div><p class="heading">文章</p><a href="/archives"><p class="title">71</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">分类</p><a href="/categories"><p class="title">20</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">标签</p><a href="/tags"><p class="title">28</p></a></div></div></nav></div></div><div class="card widget" id="toc" data-type="toc"><div class="card-content"><div class="menu"><h3 class="menu-label">目录</h3><ul class="menu-list"><li><a class="level is-mobile" href="#多态"><span class="level-left"><span class="level-item">1</span><span class="level-item">多态</span></span></a></li><li><a class="level is-mobile" href="#类方法"><span class="level-left"><span class="level-item">2</span><span class="level-item">类方法</span></span></a></li><li><a class="level is-mobile" href="#接口"><span class="level-left"><span class="level-item">3</span><span class="level-item">接口</span></span></a></li></ul></div></div><style>#toc .menu-list > li > a.is-active + .menu-list { display: block; }#toc .menu-list > li > a + .menu-list { display: none; }</style><script src="/js/toc.js" defer></script></div><div class="card widget" data-type="recent-posts"><div class="card-content"><h3 class="menu-label">最新文章</h3><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-01-20T08:02:10.000Z">2024-01-20</time></p><p class="title"><a href="/2024/01/20/jshunxiao3/">混淆处理思路</a></p><p class="categories"><a href="/categories/2-Js%E9%80%86%E5%90%91/">2.Js逆向</a> / <a href="/categories/2-Js%E9%80%86%E5%90%91/3-Js%E6%B7%B7%E6%B7%86/">3.Js混淆</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-01-20T01:34:46.000Z">2024-01-20</time></p><p class="title"><a href="/2024/01/20/yanzheng3/">验证码处理(三)</a></p><p class="categories"><a href="/categories/1-%E7%88%AC%E8%99%AB/">1.爬虫</a> / <a href="/categories/1-%E7%88%AC%E8%99%AB/3-%E9%AA%8C%E8%AF%81%E7%A0%81%E5%A4%84%E7%90%86/">3.验证码处理</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-01-18T13:15:45.000Z">2024-01-18</time></p><p class="title"><a href="/2024/01/18/forward2/">使用RPC转发数据</a></p><p class="categories"><a href="/categories/1-%E7%88%AC%E8%99%AB/">1.爬虫</a> / <a href="/categories/1-%E7%88%AC%E8%99%AB/4-%E6%8A%93%E5%8C%85%E5%B7%A5%E5%85%B7/">4.抓包工具</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-01-18T10:35:56.000Z">2024-01-18</time></p><p class="title"><a href="/2024/01/18/forward1/">使用Fiddler转发数据</a></p><p class="categories"><a href="/categories/1-%E7%88%AC%E8%99%AB/">1.爬虫</a> / <a href="/categories/1-%E7%88%AC%E8%99%AB/4-%E6%8A%93%E5%8C%85%E5%B7%A5%E5%85%B7/">4.抓包工具</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-01-18T10:01:35.000Z">2024-01-18</time></p><p class="title"><a href="/2024/01/18/jsfx/">Js逆向分析(一)</a></p><p class="categories"><a href="/categories/2-Js%E9%80%86%E5%90%91/">2.Js逆向</a> / <a href="/categories/2-Js%E9%80%86%E5%90%91/1-%E5%AF%86%E7%A0%81%E5%AD%A6/">1.密码学</a></p></div></article></div></div><div class="card widget" data-type="tags"><div class="card-content"><div class="menu"><h3 class="menu-label">标签</h3><div class="field is-grouped is-grouped-multiline"><div class="control"><a class="tags has-addons" href="/tags/Charles/"><span class="tag">Charles</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Css/"><span class="tag">Css</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Debugger/"><span class="tag">Debugger</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Fiddler/"><span class="tag">Fiddler</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Html/"><span class="tag">Html</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Java/"><span class="tag">Java</span><span class="tag">12</span></a></div><div class="control"><a class="tags has-addons" href="/tags/JavaScript/"><span class="tag">JavaScript</span><span class="tag">19</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Jscipher/"><span class="tag">Jscipher</span><span class="tag">5</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Js%E6%B7%B7%E6%B7%86/"><span class="tag">Js混淆</span><span class="tag">3</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Js%E9%80%86%E5%90%91/"><span class="tag">Js逆向</span><span class="tag">15</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Mongodb/"><span class="tag">Mongodb</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/MySql/"><span class="tag">MySql</span><span class="tag">5</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Proxifie/"><span class="tag">Proxifie</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Python/"><span class="tag">Python</span><span class="tag">16</span></a></div><div class="control"><a class="tags has-addons" href="/tags/RPC/"><span class="tag">RPC</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Redis/"><span class="tag">Redis</span><span class="tag">3</span></a></div><div class="control"><a class="tags has-addons" href="/tags/SQlite/"><span class="tag">SQlite</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Spider/"><span class="tag">Spider</span><span class="tag">4</span></a></div><div class="control"><a class="tags has-addons" href="/tags/TinyDB/"><span class="tag">TinyDB</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/aiohttp/"><span class="tag">aiohttp</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/cipher/"><span class="tag">cipher</span><span class="tag">3</span></a></div><div class="control"><a class="tags has-addons" href="/tags/jQuery/"><span class="tag">jQuery</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%88%B7%E6%9C%BA/"><span class="tag">刷机</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%AE%89%E5%8D%93%E9%80%86%E5%90%91/"><span class="tag">安卓逆向</span><span class="tag">6</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/"><span class="tag">数据库</span><span class="tag">12</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%BB%91%E5%9D%97/"><span class="tag">滑块</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%88%AC%E8%99%AB/"><span class="tag">爬虫</span><span class="tag">5</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E9%AA%8C%E8%AF%81%E7%A0%81/"><span class="tag">验证码</span><span class="tag">3</span></a></div></div></div></div></div><div class="column-right-shadow is-hidden-widescreen is-sticky"></div></div></div></div></section><footer class="footer"><div class="container"><div class="level"><div class="level-start"><a class="footer-logo is-block mb-2" href="/"><img src="/img/logo.png" alt="鱼越大，鱼越小" height="28"></a><p class="is-size-7"><span>&copy; 2024 梦游</span>  Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> &amp; <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a></p></div><div class="level-end"><div class="field has-addons"><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/mengyouxz"><i class="fab fa-github"></i></a></p></div></div></div></div></footer><script src="/js/jquery.min.js"></script><script src="/js/moment-with-locales.min.js"></script><script src="/js/clipboard.min.js"></script><script>moment.locale("zh-cn");</script><script>var IcarusThemeSettings = {
+            article: {
+                highlight: {
+                    clipboard: true,
+                    fold: 'unfolded'
+                }
+            }
+        };</script><script src="/js/column.js"></script><script src="/js/animation.js"></script><a id="back-to-top" title="回到顶端" href="javascript:;"><i class="fas fa-chevron-up"></i></a><script src="/js/back_to_top.js" defer></script><script src="/js/main.js" defer></script><div class="searchbox"><div class="searchbox-container"><div class="searchbox-header"><div class="searchbox-input-container"><input class="searchbox-input" type="text" placeholder="想要查找什么..."></div><a class="searchbox-close" href="javascript:;">×</a></div><div class="searchbox-body"></div></div></div><script src="/js/insight.js" defer></script><script>document.addEventListener('DOMContentLoaded', function () {
+            loadInsight({"contentUrl":"/content.json"}, {"hint":"想要查找什么...","untitled":"(无标题)","posts":"文章","pages":"页面","categories":"分类","tags":"标签"});
+        });</script><script type="text/javascript" src="/js/universe.js"></script></body></html>

@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="zh"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta><title>Java基础(六) - 鱼越大，鱼越小</title><link rel="manifest" href="/manifest.json"><meta name="application-name" content="鱼越大，鱼越小"><meta name="msapplication-TileImage" content="/img/logo.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="鱼越大，鱼越小"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="description" content="继承 代码块"><meta property="og:type" content="blog"><meta property="og:title" content="Java基础(六)"><meta property="og:url" content="http://example.com/2023/10/22/java6/"><meta property="og:site_name" content="鱼越大，鱼越小"><meta property="og:description" content="继承 代码块"><meta property="og:locale" content="zh_CN"><meta property="og:image" content="http://example.com/img/og_image.png"><meta property="article:published_time" content="2023-10-22T12:05:48.000Z"><meta property="article:modified_time" content="2024-03-10T15:37:03.488Z"><meta property="article:author" content="梦游"><meta property="article:tag" content="Java"><meta property="twitter:card" content="summary"><meta property="twitter:image:src" content="http://example.com/img/og_image.png"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"http://example.com/2023/10/22/java6/"},"headline":"Java基础(六)","image":["http://example.com/img/og_image.png"],"datePublished":"2023-10-22T12:05:48.000Z","dateModified":"2024-03-10T15:37:03.488Z","author":{"@type":"Person","name":"梦游"},"publisher":{"@type":"Organization","name":"鱼越大，鱼越小","logo":{"@type":"ImageObject","url":"http://example.com/img/logo.png"}},"description":"继承 代码块"}</script><link rel="canonical" href="http://example.com/2023/10/22/java6/"><link rel="icon" href="/img/logo.png"><link rel="stylesheet" href="/css/all.css"><link rel="stylesheet" href="/css/atom-one-dark.css"><link rel="stylesheet" href="/css/css2?family=Ubuntu:wght@400;600&amp;family=Source+Code+Pro"><link rel="stylesheet" href="/css/default.css"><style>body>.footer,body>.navbar,body>.section{opacity:0}</style><!--!--><link rel="stylesheet" href="/css/art.css"><!-- hexo injector head_end start --><script>
+  (function () {
+      function switchTab() {
+          if (!location.hash) {
+            return;
+          }
+
+          const id = '#' + CSS.escape(location.hash.substring(1));
+          const $tabMenu = document.querySelector(`.tabs a[href="${id}"]`);
+          if (!$tabMenu) {
+            return;
+          }
+
+          const $tabMenuContainer = $tabMenu.parentElement.parentElement;
+          Array.from($tabMenuContainer.children).forEach($menu => $menu.classList.remove('is-active'));
+          Array.from($tabMenuContainer.querySelectorAll('a'))
+              .map($menu => document.getElementById($menu.getAttribute("href").substring(1)))
+              .forEach($content => $content.classList.add('is-hidden'));
+
+          if ($tabMenu) {
+              $tabMenu.parentElement.classList.add('is-active');
+          }
+          const $activeTab = document.querySelector(id);
+          if ($activeTab) {
+              $activeTab.classList.remove('is-hidden');
+          }
+      }
+      switchTab();
+      window.addEventListener('hashchange', switchTab, false);
+  })();
+  </script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.1.1"></head><body class="is-3-column"><script type="text/javascript" src="/js/night.js"></script><canvas id="universe"></canvas><nav class="navbar navbar-main"><div class="container navbar-container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/"><img src="/img/logo.png" alt="鱼越大，鱼越小" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/">主页</a><a class="navbar-item" href="/classification/index.html">分类</a><a class="navbar-item" href="/codebase/index.html">编程基础</a><a class="navbar-item" href="/about/index.html">碎碎念</a></div><div class="navbar-end"><a class="navbar-item is-hidden-tablet catalogue" title="目录" href="javascript:;"><i class="fas fa-list-ul"></i></a><a class="navbar-item night" id="night-nav" title="Night Mode" href="javascript:;"><i class="fas fa-moon" id="night-icon"></i></a><a class="navbar-item" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/mengyouxz"><i class="fab fa-github"></i></a><a class="navbar-item search" title="搜索" href="javascript:;"><i class="fas fa-search"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main"><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2023-10-22T12:05:48.000Z" title="2023/10/22 20:05:48">2023-10-22</time>发表</span><span class="level-item"><time dateTime="2024-03-10T15:37:03.488Z" title="2024/3/10 23:37:03">2024-03-10</time>更新</span><span class="level-item"><a class="link-muted" href="/categories/5-%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80/">5.编程基础</a><span> / </span><a class="link-muted" href="/categories/5-%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80/2-Java/">2.Java</a></span><span class="level-item">6 分钟读完 (大约944个字)</span></div></div><h1 class="title is-3 is-size-4-mobile">Java基础(六)</h1><div class="content"><p>继承 代码块</p>
+<span id="more"></span>
+<h3 id="继承"><a href="#继承" class="headerlink" title="继承"></a>继承</h3><ul>
+<li>提高代码复用性</li>
+<li>语法<ul>
+<li>class 子类 extends 父类{}</li>
+<li>父类又叫超类&#x2F;基类，子类又叫派生类</li>
+<li>当多个子类存在相同的属性和方法时，可以从这些类中抽象出父类，在父类中定义这些相同的属性和方法，所以子类不需要在定义这些属性和方法，只需要通过extends继承父类</li>
+<li>子类自动拥有父类的所以属性和方法，但受访问修饰符的影响，子类访问父类私有属性和方法通过set，get</li>
+<li>继承只能继承一个，python可以多个</li>
+<li>所以类的父类都是object</li>
+</ul>
+</li>
+<li>父类构造器<ul>
+<li>当创建子类对象时，不管使用哪个子类构造器，默认情况下都会去调用父类的无参构造器，也就是子类默认在首句加上super（）</li>
+<li>如果父类自定义了构造器没有重写默认构造器，则会报错，可以使用super(参数列表)来指定父类的构造器，super和this方法都必须放在构造器第一行，因此两个方法不能存在一个构造器。</li>
+<li>父类构造器的调用不限于父类，一直往上到object类</li>
+<li>super<ul>
+<li>子类和父类具有相同名字属性和方法时，默认调用子类，要想使用父类的属性和方法，使用super.属性名&#x2F;方法名（受访问修饰符影响）</li>
+<li>访问父类构造器super（参数），必须写在子类构造器第一行</li>
+</ul>
+</li>
+<li>super和this<ul>
+<li>this访问自身的属性和方法，没找到才去找父类的</li>
+<li>super找父类的属性和方法，没有找爷爷类</li>
+<li>this()构造器，super()访问父类构造器</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>方法重写<ul>
+<li>方法重写也叫方法覆盖</li>
+<li>子类方法名称参数与父类完全相同</li>
+<li>子类方法的返回类型和父类方法的返回类型一致，或者是其子类 ，父类Object子类可以返回String类型</li>
+<li>访问权限只能扩大不能缩小，父类private子类protected</li>
+</ul>
+</li>
+<li>重写和重载区别<ul>
+<li>重载：同一个类中方法名相同，参数不同，与返回值无关，与访问修饰符无关</li>
+<li>子类方法的返回类型和父类方法的返回类型一致，或者是其子类 ，父类Object子类可以返回String类型</li>
+</ul>
+</li>
+</ul>
+<h3 id="代码块"><a href="#代码块" class="headerlink" title="代码块"></a>代码块</h3><ul>
+<li>静态代码块<ul>
+<li>可以定义多个，和静态属性优先级一样，按定义顺序执行</li>
+<li>随着类的加载而执行，只执行一次，执行时机比普通代码块早</li>
+</ul>
+</li>
+<li>普通代码块<ul>
+<li>可以定义多个，和实例属性优先级一样，按定义顺序执行</li>
+<li>随着对象创建而执行</li>
+</ul>
+</li>
+<li>类的加载<ul>
+<li>创建对象实例</li>
+<li>创建子类对象实例，父类也会被加载</li>
+<li>使用类的静态成员时</li>
+<li>使用子类的静态成员时，父类也会被加载</li>
+</ul>
+</li>
+<li>静态代码块只能调用静态成员，普通代码块可以调用任意成员</li>
+<li>执行顺序，先父类静态属性和方法，在子类静态属性和方法，在父类普通代码-&gt;构造器，在子类普通代码-&gt;构造器<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">demo1</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span>&#123;</span><br><span class="line">    <span class="keyword">new</span> <span class="title class_">Test</span>();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Demo</span> &#123;</span><br><span class="line">    Demo(String s)&#123;</span><br><span class="line">        System.out.println(s);</span><br><span class="line">    &#125;</span><br><span class="line">    Demo()&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;无参构造器&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Test</span> &#123;</span><br><span class="line">    <span class="type">Demo</span> <span class="variable">demox</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Demo</span>(<span class="string">&quot;demox初始化&quot;</span>);</span><br><span class="line">    <span class="keyword">static</span> <span class="type">Demo</span> <span class="variable">demo2</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Demo</span>(<span class="string">&quot;demo2初始化&quot;</span>);</span><br><span class="line">    <span class="keyword">static</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;static块执行&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    Test () &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;Test无参构造器&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+</div><div class="article-tags is-size-7 mb-4"><span class="mr-2">#</span><a class="link-muted mr-2" rel="tag" href="/tags/Java/">Java</a></div><!--!--></article></div><!--!--><nav class="post-navigation mt-4 level is-mobile"><div class="level-start"><a class="article-nav-prev level level-item link-muted" href="/2023/10/22/java7/"><i class="level-item fas fa-chevron-left"></i><span class="level-item">Java基础(七)</span></a></div><div class="level-end"><a class="article-nav-next level level-item link-muted" href="/2023/10/22/java5/"><span class="level-item">Java基础(五)</span><i class="level-item fas fa-chevron-right"></i></a></div></nav><!--!--></div><div class="column column-left is-4-tablet is-4-desktop is-3-widescreen  order-1 is-sticky"><div class="card widget" data-type="profile"><div class="card-content"><nav class="level"><div class="level-item has-text-centered flex-shrink-1"><div><figure class="image is-128x128 mx-auto mb-2"><img class="avatar is-rounded" src="/img/logo.gif" alt="SleepWalking"></figure><p class="title is-size-4 is-block" style="line-height:inherit;">SleepWalking</p><p class="is-size-6 is-block">o.0</p><p class="is-size-6 is-flex justify-content-center"><i class="fas fa-map-marker-alt mr-1"></i><span>Moon</span></p></div></div></nav><nav class="level is-mobile"><div class="level-item has-text-centered is-marginless"><div><p class="heading">文章</p><a href="/archives"><p class="title">71</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">分类</p><a href="/categories"><p class="title">20</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">标签</p><a href="/tags"><p class="title">28</p></a></div></div></nav></div></div><div class="card widget" id="toc" data-type="toc"><div class="card-content"><div class="menu"><h3 class="menu-label">目录</h3><ul class="menu-list"><li><a class="level is-mobile" href="#继承"><span class="level-left"><span class="level-item">1</span><span class="level-item">继承</span></span></a></li><li><a class="level is-mobile" href="#代码块"><span class="level-left"><span class="level-item">2</span><span class="level-item">代码块</span></span></a></li></ul></div></div><style>#toc .menu-list > li > a.is-active + .menu-list { display: block; }#toc .menu-list > li > a + .menu-list { display: none; }</style><script src="/js/toc.js" defer></script></div><div class="card widget" data-type="recent-posts"><div class="card-content"><h3 class="menu-label">最新文章</h3><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-01-20T08:02:10.000Z">2024-01-20</time></p><p class="title"><a href="/2024/01/20/jshunxiao3/">混淆处理思路</a></p><p class="categories"><a href="/categories/2-Js%E9%80%86%E5%90%91/">2.Js逆向</a> / <a href="/categories/2-Js%E9%80%86%E5%90%91/3-Js%E6%B7%B7%E6%B7%86/">3.Js混淆</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-01-20T01:34:46.000Z">2024-01-20</time></p><p class="title"><a href="/2024/01/20/yanzheng3/">验证码处理(三)</a></p><p class="categories"><a href="/categories/1-%E7%88%AC%E8%99%AB/">1.爬虫</a> / <a href="/categories/1-%E7%88%AC%E8%99%AB/3-%E9%AA%8C%E8%AF%81%E7%A0%81%E5%A4%84%E7%90%86/">3.验证码处理</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-01-18T13:15:45.000Z">2024-01-18</time></p><p class="title"><a href="/2024/01/18/forward2/">使用RPC转发数据</a></p><p class="categories"><a href="/categories/1-%E7%88%AC%E8%99%AB/">1.爬虫</a> / <a href="/categories/1-%E7%88%AC%E8%99%AB/4-%E6%8A%93%E5%8C%85%E5%B7%A5%E5%85%B7/">4.抓包工具</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-01-18T10:35:56.000Z">2024-01-18</time></p><p class="title"><a href="/2024/01/18/forward1/">使用Fiddler转发数据</a></p><p class="categories"><a href="/categories/1-%E7%88%AC%E8%99%AB/">1.爬虫</a> / <a href="/categories/1-%E7%88%AC%E8%99%AB/4-%E6%8A%93%E5%8C%85%E5%B7%A5%E5%85%B7/">4.抓包工具</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-01-18T10:01:35.000Z">2024-01-18</time></p><p class="title"><a href="/2024/01/18/jsfx/">Js逆向分析(一)</a></p><p class="categories"><a href="/categories/2-Js%E9%80%86%E5%90%91/">2.Js逆向</a> / <a href="/categories/2-Js%E9%80%86%E5%90%91/1-%E5%AF%86%E7%A0%81%E5%AD%A6/">1.密码学</a></p></div></article></div></div><div class="card widget" data-type="tags"><div class="card-content"><div class="menu"><h3 class="menu-label">标签</h3><div class="field is-grouped is-grouped-multiline"><div class="control"><a class="tags has-addons" href="/tags/Charles/"><span class="tag">Charles</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Css/"><span class="tag">Css</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Debugger/"><span class="tag">Debugger</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Fiddler/"><span class="tag">Fiddler</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Html/"><span class="tag">Html</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Java/"><span class="tag">Java</span><span class="tag">12</span></a></div><div class="control"><a class="tags has-addons" href="/tags/JavaScript/"><span class="tag">JavaScript</span><span class="tag">19</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Jscipher/"><span class="tag">Jscipher</span><span class="tag">5</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Js%E6%B7%B7%E6%B7%86/"><span class="tag">Js混淆</span><span class="tag">3</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Js%E9%80%86%E5%90%91/"><span class="tag">Js逆向</span><span class="tag">15</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Mongodb/"><span class="tag">Mongodb</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/MySql/"><span class="tag">MySql</span><span class="tag">5</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Proxifie/"><span class="tag">Proxifie</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Python/"><span class="tag">Python</span><span class="tag">16</span></a></div><div class="control"><a class="tags has-addons" href="/tags/RPC/"><span class="tag">RPC</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Redis/"><span class="tag">Redis</span><span class="tag">3</span></a></div><div class="control"><a class="tags has-addons" href="/tags/SQlite/"><span class="tag">SQlite</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Spider/"><span class="tag">Spider</span><span class="tag">4</span></a></div><div class="control"><a class="tags has-addons" href="/tags/TinyDB/"><span class="tag">TinyDB</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/aiohttp/"><span class="tag">aiohttp</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/cipher/"><span class="tag">cipher</span><span class="tag">3</span></a></div><div class="control"><a class="tags has-addons" href="/tags/jQuery/"><span class="tag">jQuery</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%88%B7%E6%9C%BA/"><span class="tag">刷机</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%AE%89%E5%8D%93%E9%80%86%E5%90%91/"><span class="tag">安卓逆向</span><span class="tag">6</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/"><span class="tag">数据库</span><span class="tag">12</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%BB%91%E5%9D%97/"><span class="tag">滑块</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%88%AC%E8%99%AB/"><span class="tag">爬虫</span><span class="tag">5</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E9%AA%8C%E8%AF%81%E7%A0%81/"><span class="tag">验证码</span><span class="tag">3</span></a></div></div></div></div></div><div class="column-right-shadow is-hidden-widescreen is-sticky"></div></div></div></div></section><footer class="footer"><div class="container"><div class="level"><div class="level-start"><a class="footer-logo is-block mb-2" href="/"><img src="/img/logo.png" alt="鱼越大，鱼越小" height="28"></a><p class="is-size-7"><span>&copy; 2024 梦游</span>  Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> &amp; <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a></p></div><div class="level-end"><div class="field has-addons"><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/mengyouxz"><i class="fab fa-github"></i></a></p></div></div></div></div></footer><script src="/js/jquery.min.js"></script><script src="/js/moment-with-locales.min.js"></script><script src="/js/clipboard.min.js"></script><script>moment.locale("zh-cn");</script><script>var IcarusThemeSettings = {
+            article: {
+                highlight: {
+                    clipboard: true,
+                    fold: 'unfolded'
+                }
+            }
+        };</script><script src="/js/column.js"></script><script src="/js/animation.js"></script><a id="back-to-top" title="回到顶端" href="javascript:;"><i class="fas fa-chevron-up"></i></a><script src="/js/back_to_top.js" defer></script><script src="/js/main.js" defer></script><div class="searchbox"><div class="searchbox-container"><div class="searchbox-header"><div class="searchbox-input-container"><input class="searchbox-input" type="text" placeholder="想要查找什么..."></div><a class="searchbox-close" href="javascript:;">×</a></div><div class="searchbox-body"></div></div></div><script src="/js/insight.js" defer></script><script>document.addEventListener('DOMContentLoaded', function () {
+            loadInsight({"contentUrl":"/content.json"}, {"hint":"想要查找什么...","untitled":"(无标题)","posts":"文章","pages":"页面","categories":"分类","tags":"标签"});
+        });</script><script type="text/javascript" src="/js/universe.js"></script></body></html>
